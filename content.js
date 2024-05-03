@@ -1,3 +1,8 @@
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.action === "run") applyDarkMode()
+    if (message.action === "revert") revertDarkMode()
+})
+
 const styles = `
 
 /* --- MAIN COLOR BACKGROUND --- */
@@ -11,7 +16,9 @@ html * {
 
 img,
 svg,
-div[role=img]
+video,
+div[role=img],
+*[style*="background-image"]
  {
     filter: invert(84%) grayscale(0%) saturate(110%) contrast(115%) brightness(110%) hue-rotate(180deg) !important;
 }
@@ -34,8 +41,45 @@ div[role=img]
 ::-webkit-scrollbar-track {
     background: lightgray !important;
 }
+`
+const unsetStyles = `
 
+/* --- MAIN COLOR BACKGROUND --- */
+html {
+    filter: unset !important;
+}
 
+html * {
+    box-shadow:  unset !important;
+}
+
+img,
+svg,
+video,
+div[role=img],
+*[style*="background-image"]
+ {
+    filter:  unset !important;
+}
+
+/* --- SCROLLBARS --- */
+::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: gray !important;
+    border-radius: 6px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: darkgray !important;
+}
+
+::-webkit-scrollbar-track {
+    background: lightgray !important;
+}
 `
 
 function applyDarkMode() {
@@ -49,6 +93,11 @@ function applyDarkMode() {
     });
 
     console.log('Lights just went Off!')
+    localStorage.setItem('lightsOff', 1)
 }
 
-applyDarkMode();
+function revertDarkMode() {
+    location.reload()
+    console.log('Let there be light!')
+    localStorage.setItem('lightsOff', 0)
+}
