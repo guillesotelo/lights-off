@@ -93,21 +93,18 @@ function applyDarkMode() {
     });
 
     console.log('Lights just went Off!')
-    localStorage.setItem('lightsOff', 1)
 }
 
 function revertDarkMode() {
     location.reload()
     console.log('Let there be light!')
-    localStorage.setItem('lightsOff', 0)
 }
 
 function run() {
     chrome.storage.local.get('lightsOff', function (data) {
-        const isOn = data.lightsOff === 1; // Check if lights are off
+        const isOn = data.lightsOff === 1; // Check if lights are on
         const on = document.getElementById("on");
         const off = document.getElementById("off");
-        console.log('isOn', isOn)
 
         if (isOn) {
             applyDarkMode()
@@ -118,5 +115,5 @@ function run() {
         }
     })
 }
-run()
 
+run();
