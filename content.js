@@ -101,3 +101,22 @@ function revertDarkMode() {
     console.log('Let there be light!')
     localStorage.setItem('lightsOff', 0)
 }
+
+function run() {
+    chrome.storage.local.get('lightsOff', function (data) {
+        const isOn = data.lightsOff === 1; // Check if lights are off
+        const on = document.getElementById("on");
+        const off = document.getElementById("off");
+        console.log('isOn', isOn)
+
+        if (isOn) {
+            applyDarkMode()
+            if (on && off) {
+                off.classList.remove('active')
+                on.classList.add('active')
+            }
+        }
+    })
+}
+run()
+

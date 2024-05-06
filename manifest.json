@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
     "name": "Lights Off",
-    "version": "1.1",
-    "description": "Convert any page into Dark Mode",
-    "permissions": [],
+    "version": "1.2",
+    "description": "Convert any page into Dark Mode, or its inverted relative",
+    "permissions": ["storage"],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
